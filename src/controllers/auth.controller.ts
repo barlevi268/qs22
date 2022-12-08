@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateUserDto } from '@dtos/users.dto';
+import { CreateUserDto, LoginUserDto } from '@dtos/users.dto';
 import { RequestWithUser } from '@interfaces/auth.interface';
+import { UserAPILogin, UserAPIResponse } from '@/interfaces/api.interface';
 import { User } from '@/interfaces/db.interface';
 import AuthService from '@services/auth.service';
 
@@ -10,7 +11,7 @@ class AuthController {
   public signUp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const userData: CreateUserDto = req.body;
-      const signUpUserData: User = await this.authService.signup(userData);
+      const signUpUserData: UserAPIResponse = await this.authService.signup(userData);
 
       res.status(201).json({ data: signUpUserData, message: 'signup' });
     } catch (error) {
@@ -20,11 +21,11 @@ class AuthController {
 
   public logIn = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const userData: CreateUserDto = req.body;
-      const { cookie, findUser } = await this.authService.login(userData);
+      const userData: LoginUserDto = req.body;
+      const { cookie, findUserResponse }: { cookie: string; findUserResponse: UserAPILogin } = await this.authService.login(userData);
 
       res.setHeader('Set-Cookie', [cookie]);
-      res.status(200).json({ data: findUser, message: 'login' });
+      res.status(200).json({ data: findUserResponse, message: 'login' });
     } catch (error) {
       next(error);
     }

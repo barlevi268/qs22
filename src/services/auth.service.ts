@@ -1,11 +1,11 @@
 import { hash, compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import { SECRET_KEY } from '@config';
-import { CreateUserDto } from '@dtos/users.dto';
+import { CreateUserDto, LoginUserDto } from '@dtos/users.dto';
 import { HttpException } from '@exceptions/HttpException';
 import { DataStoredInToken, TokenData } from '@interfaces/auth.interface';
 import { User, Org } from '@/interfaces/db.interface';
-import { UserAPIResponse } from '@/interfaces/api.interface';
+import { UserAPIResponse, UserAPILogin } from '@/interfaces/api.interface';
 import { Users } from '@models/users.model';
 import { Orgs } from '@models/orgs.model';
 import { isEmpty } from '@utils/util';
@@ -27,7 +27,7 @@ class AuthService {
     return new UserAPIResponse(createUserData, createOrgData);
   }
 
-  public async login(userData: CreateUserDto): Promise<{ cookie: string; findUser: User }> {
+  public async login(userData: LoginUserDto): Promise<{ cookie: string; findUserResponse: UserAPILogin }> {
     if (isEmpty(userData)) throw new HttpException(400, 'userData is empty');
 
     const findUser: User = await Users.query().select().from('users').where('email', '=', userData.email).first();
@@ -36,10 +36,14 @@ class AuthService {
     const isPasswordMatching: boolean = await compare(userData.password, findUser.password);
     if (!isPasswordMatching) throw new HttpException(409, 'Password is not matching');
 
-    const tokenData = this.createToken(findUser);
-    const cookie = this.createCookie(tokenData);
+    const tokenData: TokenData = this.createToken(findUser);
+    const cookie: string = this.createCookie(tokenData);
 
-    return { cookie, findUser };
+    const findOrg: Org = await Orgs.query().select().from('orgs').where('id', '=', findUser.org_id).first();
+
+    const findUserResponse = new UserAPILogin(findUser, findOrg, tokenData);
+
+    return { cookie, findUserResponse };
   }
 
   public async logout(userData: User): Promise<User> {

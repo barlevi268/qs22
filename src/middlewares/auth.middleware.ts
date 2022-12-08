@@ -54,4 +54,4 @@ const authAdminMiddleware = async (req: RequestWithUser, res: Response, next: Ne
   }
 };
 
-export  { authMiddleware, authAdminMiddleware };
+export { authMiddleware, authAdminMiddleware };
