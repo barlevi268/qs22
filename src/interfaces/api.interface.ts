@@ -1,6 +1,6 @@
 import { Org, User } from './db.interface';
 import { TokenData } from './auth.interface';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 
 export class UserAPIResponse {
   id: number;

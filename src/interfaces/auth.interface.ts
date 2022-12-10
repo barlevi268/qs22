@@ -1,8 +1,9 @@
 import { Request } from 'express';
-import { User } from '@/interfaces/db.interface';
+import { Slug } from '@/interfaces/db.interface';
 
 export interface DataStoredInToken {
   id: number;
+  org_id: number;
 }
 
 export interface TokenData {
@@ -11,5 +12,18 @@ export interface TokenData {
 }
 
 export interface RequestWithUser extends Request {
-  user: User;
+  user: {
+    id: number;
+    org_id: number;
+  };
+}
+
+export interface UserWithSlugs {
+  id: number;
+  org_id: number;
+  slugs: Slug[];
+}
+
+export interface RequestWithUserAndSlugs extends Request {
+  user: UserWithSlugs;
 }

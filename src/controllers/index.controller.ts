@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { UserRequest } from '@/interfaces/api.interface';
+import { RequestWithUserAndSlugs } from '@interfaces/auth.interface';
 import { APP_URL } from '@config';
-import { GetSlugDto } from '@dtos/slugs.dto';
 import { Slug } from '@/interfaces/db.interface';
 import slugService from '@services/slugs.service';
 
@@ -16,14 +15,12 @@ class IndexController {
     }
   };
 
-  public handleSlug = async (req: UserRequest, res: Response, next: NextFunction): Promise<void> => {
+  public handleSlug = async (req: RequestWithUserAndSlugs, res: Response, next: NextFunction): Promise<void> => {
     try {
       const slugValue = req.params.slug;
-      const slugData: GetSlugDto = { slug: slugValue, org_id: req.user.org_id };
+      const findSlugByValue: Slug[] = req.user.slugs.filter(slug => slug.slug == slugValue);
 
-      const findSlugByValue: Slug = await this.slugService.findSlugByValue(slugData);
-
-      const redirectUrl = findSlugByValue ? findSlugByValue.url : APP_URL;
+      const redirectUrl = findSlugByValue.length > 0 ? findSlugByValue[0].url : APP_URL;
 
       return res.redirect(redirectUrl);
     } catch (error) {

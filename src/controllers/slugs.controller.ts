@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
 import { UserRequest } from '@/interfaces/api.interface';
 import { SlugDto, GetSlugDto } from '@dtos/slugs.dto';
 import { Slug } from '@/interfaces/db.interface';

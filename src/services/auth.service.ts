@@ -46,23 +46,8 @@ class AuthService {
     return { cookie, findUserResponse };
   }
 
-  public async logout(userData: User): Promise<User> {
-    if (isEmpty(userData)) throw new HttpException(400, 'userData is empty');
-
-    const findUser: User = await Users.query()
-      .select()
-      .from('users')
-      .where('email', '=', userData.email)
-      .andWhere('password', '=', userData.password)
-      .first();
-
-    if (!findUser) throw new HttpException(409, "User doesn't exist");
-
-    return findUser;
-  }
-
   public createToken(user: User): TokenData {
-    const dataStoredInToken: DataStoredInToken = { id: user.id };
+    const dataStoredInToken: DataStoredInToken = { id: user.id, org_id: user.org_id };
     const secretKey: string = SECRET_KEY;
     const expiresIn: number = 60 * 60;
 
