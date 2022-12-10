@@ -6,7 +6,7 @@ export class SlugDto {
   public id?: number;
 
   @IsString()
-  @NotEquals("lobby")
+  @NotEquals('lobby')
   public slug: string;
 
   @IsUrl()
@@ -14,7 +14,7 @@ export class SlugDto {
 
   @ValidateIf(o => o.org_id)
   @IsNumber()
-  public org_id?:number;
+  public org_id?: number;
 }
 
 export class GetSlugDto {
@@ -27,7 +27,7 @@ export class GetSlugDto {
   public slug?: string;
 
   @IsNumber()
-  public org_id:number;
+  public org_id: number;
 }
 
 export class UpdateSlugDto {
@@ -37,5 +37,5 @@ export class UpdateSlugDto {
 
   @ValidateIf(o => o.url)
   @IsUrl()
-  public url?: string;  
+  public url?: string;
 }

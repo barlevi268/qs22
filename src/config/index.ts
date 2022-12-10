@@ -14,5 +14,6 @@ export const {
   LOG_FORMAT,
   LOG_DIR,
   ORIGIN,
-  PG_CONNECTION_STRING, APP_URL
+  PG_CONNECTION_STRING,
+  APP_URL,
 } = process.env;

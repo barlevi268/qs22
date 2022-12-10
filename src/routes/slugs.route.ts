@@ -17,8 +17,8 @@ class SlugsRoute implements Routes {
   private initializeRoutes() {
     this.router.get(`${this.path}`, authMiddleware, this.SlugsController.getSlugs);
     this.router.get(`${this.path}/:id(\\d+)`, authMiddleware, this.SlugsController.getSlugById);
-    this.router.post(`${this.path}`, authMiddleware,validationMiddleware(SlugDto, 'body'), this.SlugsController.createSlug);
-    this.router.put(`${this.path}/:id(\\d+)`, authMiddleware,validationMiddleware(UpdateSlugDto, 'body'), this.SlugsController.updateSlug);
+    this.router.post(`${this.path}`, authMiddleware, validationMiddleware(SlugDto, 'body'), this.SlugsController.createSlug);
+    this.router.put(`${this.path}/:id(\\d+)`, authMiddleware, validationMiddleware(UpdateSlugDto, 'body'), this.SlugsController.updateSlug);
     this.router.delete(`${this.path}/:id(\\d+)`, authMiddleware, this.SlugsController.deleteSlug);
   }
 }

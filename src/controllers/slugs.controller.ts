@@ -9,7 +9,7 @@ class SlugsController {
 
   public getSlugs = async (req: UserRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const orgId = req.user.org_id
+      const orgId = req.user.org_id;
       const findAllSlugsData: Slug[] = await this.slugService.getSlugsByOrg(orgId);
 
       res.status(200).json({ data: findAllSlugsData, message: 'findAll' });
@@ -21,7 +21,7 @@ class SlugsController {
   public getSlugById = async (req: UserRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
       const slugId = Number(req.params.id);
-      const slugData: GetSlugDto = { id: slugId, org_id: req.user.org_id }
+      const slugData: GetSlugDto = { id: slugId, org_id: req.user.org_id };
       const findOneSlugData: Slug = await this.slugService.findSlugById(slugData);
 
       res.status(200).json({ data: findOneSlugData, message: 'findOne' });
@@ -44,7 +44,7 @@ class SlugsController {
   public updateSlug = async (req: UserRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
       const slugId = Number(req.params.id);
-      const slugData: SlugDto = { ...req.body, id:slugId, org_id: req.user.org_id };
+      const slugData: SlugDto = { ...req.body, id: slugId, org_id: req.user.org_id };
       const updateSlugData: Slug = await this.slugService.updateSlug(slugData);
 
       res.status(200).json({ data: updateSlugData, message: 'updated' });
@@ -56,7 +56,7 @@ class SlugsController {
   public deleteSlug = async (req: UserRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
       const slugId = Number(req.params.id);
-      const slugData: GetSlugDto = { id: slugId, org_id: req.user.org_id }
+      const slugData: GetSlugDto = { id: slugId, org_id: req.user.org_id };
       const deleteSlugData: Slug = await this.slugService.deleteSlug(slugData);
 
       res.status(200).json({ data: deleteSlugData, message: 'deleted' });
