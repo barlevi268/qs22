@@ -6,7 +6,7 @@ import validationMiddleware from '@middlewares/validation.middleware';
 import { authAdminMiddleware } from '@middlewares/auth.middleware';
 
 class UsersRoute implements Routes {
-  public path = '/users';
+  public path = 'lobby/admin';
   public router = Router();
   public usersController = new UsersController();
 
